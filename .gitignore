@@ -1,0 +1,6 @@
+*.swp
+*.pyc
+.env
+.fab
+logs/*
+build/*

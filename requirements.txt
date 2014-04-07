@@ -1,0 +1,5 @@
+Flask==0.10.1
+gunicorn==0.16.1
+
+compliance-checker>=0.1
+
