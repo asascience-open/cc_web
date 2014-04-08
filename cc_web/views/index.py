@@ -4,10 +4,7 @@ from cStringIO import StringIO
 from flask import render_template, make_response, redirect, jsonify, flash, request, url_for
 from cc_web import app
 
-from compliance_checker.cchecker import run_checker
-from compliance_checker.ioos import IOOSBaseCheck
-from compliance_checker.cf import CFBaseCheck
-from compliance_checker.acdd import ACDDBaseCheck
+from compliance_checker.runner import ComplianceChecker
 
 @app.route('/', methods=['GET'])
 def index():
@@ -46,15 +43,9 @@ def run_cc():
 
     csio = StringIO()
     try:
-        check_dict = {
-            'cf' : CFBaseCheck,
-            'acdd' : ACDDBaseCheck,
-            'ioos' : IOOSBaseCheck,
-        }
-
         # magic to wrap stdout
         with stdout_redirected(csio):
-            run_checker(url, checkers, 2, check_dict, 'strict')
+            ComplianceChecker.run_checker(url, checkers, 2, 'strict')
 
         output = csio.getvalue()
 
